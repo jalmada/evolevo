@@ -1,4 +1,5 @@
 import Enums from '../common/enums.js';
+import Circle from '../common/circle.js';
 
 class Evolito{
     constructor(){
@@ -10,13 +11,21 @@ class Evolito{
         this.children = [];
         this.mutacoef = 0;
         this.partners = [];        
+        this.xcoord = 0;
+        this.ycoord = 0;
+        this.elementHeight = 10;
+        this.elementWidth = 10;
+        this.lineWidth = 10;
+
+        this.ctx = null;
     }
 
-    Conception(father, mother, mutacoef){
-        this.father = father;
-        this.mother = mother;
-
-        this.mutacoef = mutacoef;
+    Spawn(ctx){
+        this.ctx = ctx;
+        if(this.ctx){
+            var body = new Circle(this.xcoord, this.ycoord, this.elementWidth, this.elementHeight, this.lineWidth);
+            body.paint(this.ctx, this.race.GetRaceColor());
+        }
     }
 }
 
@@ -79,7 +88,7 @@ class Fetus{
 class Race {
     constructor()
     {
-        this.r = 255;
+        this.r = 0;
         this.g = 255;
         this.b = 255;
     }
@@ -90,3 +99,5 @@ class Race {
 
 }
 
+export default Evolito
+export {Male}
