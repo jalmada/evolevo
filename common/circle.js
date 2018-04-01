@@ -10,8 +10,9 @@ class Circle {
         this.radiusOffsety = this.radiusy - this.offset;
     }
     
-    paint(ctx, color){
-        ctx.strokeStyle = color || "rgb(0,0,0)";
+    paint(ctx, colorBorder, colorFill){
+        ctx.strokeStyle = colorBorder || "rgb(255,255,255)";
+        ctx.fillStyle = colorFill || "rgb(255,255,255)";
         ctx.lineWidth=this.lineWidth;
         ctx.beginPath();
 
@@ -27,7 +28,9 @@ class Circle {
             }
         }
 
+        ctx.fill();
         ctx.stroke();
+        
     }
 }
 

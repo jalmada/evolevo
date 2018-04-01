@@ -1,3 +1,4 @@
+
 class World {
 
     constructor(containerId){
@@ -13,8 +14,8 @@ class World {
     _initCanvas(){
             
         this.canvas = document.createElement("canvas");
-        this.canvas.width = this.container.clientWidth;
-        this.canvas.height = this.container.clientHeight;
+        this.canvas.width = this.canvasWidth || this.container.clientWidth;
+        this.canvas.height = this.canvasHeight || this.container.clientHeight;
 
         
         this.canvas.width = this.canvasWidth;
@@ -42,9 +43,19 @@ class World {
 
     SpawnEvolito(evolito){
         if(evolito.Spawn){
-            evolito.Spawn(this.ctx);
+            evolito.Spawn(this.ctx, this.GetRandomPosition(evolito.OffsetX, evolito.OffsetY));
             this.evolitos.push(evolito);
         }
+    }
+
+    GetRandomPosition(offsetx, offsety){
+        let offx = offsetx || 0;
+        let offy = offsety || 0
+
+        return {
+            x: Math.floor((Math.random() * this.canvasWidth - offx) + 1),
+            y: Math.floor((Math.random() * this.canvasHeight - offy) + 1)
+        };
     }
 }
 

@@ -1,3 +1,4 @@
 canvas { border: 1px solid black; }
+.data { border: 1px solid black; height: 300px; width: 500px }
 #main { text-align: center; width: 100%}
 h1 {text-align: center}
