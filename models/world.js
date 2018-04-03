@@ -39,6 +39,10 @@ class World {
 
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         }
+
+        evolitos.forEach(evolito => {
+            SpawnEvolito(evolito);
+        });
     }
 
     SpawnEvolito(evolito){

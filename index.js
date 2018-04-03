@@ -1,11 +1,12 @@
 import World from './models/world.js';
-import {Male} from './models/evolito.js';
-import {Female} from './models/evolito.js';
-import {Race} from './models/evolito.js';
+import Male from './models/male.js';
+import Female from './models/female.js';
+import Race from './models/race.js';
+import Enums from './common/enums.js';
 
 var world = new World('evolevo');
-var male = new Male("Adam", new Race(0,0,0));
-var female = new Female("Eve", new Race(255,255,255 ));
+var male = new Male("Adam", new Race(Enums.Race.Solains));
+var female = new Female("Eve", new Race(Enums.Race.Defaultonian));
 
 world.draw();
 world.SpawnEvolito(male);
