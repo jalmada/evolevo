@@ -22,7 +22,20 @@ class Enums {
                Midert: 4,
                Ichini: 5
            }
-       }
+    }
+
+    static get Directions() {
+        return {
+            X : {
+                Right: 1,
+                Left: -1,
+            },
+            Y : {
+                Up: -1,
+                Down: 1
+            }
+        }
+    }
 }
 
 export default Enums

@@ -43,9 +43,9 @@ class Evolito{
         return this.elementHeight;
     }
 
-    Spawn(ctx, coord){
-        this.xcoord = coord.x || 0;
-        this.ycoord = coord.y || 0;
+    Spawn(ctx, x, y){
+        this.xcoord = x || this.xcoord;
+        this.ycoord = y || this.ycoord;
 
         this.PaintBody(ctx);
     }
@@ -71,6 +71,19 @@ class Evolito{
             skin.paint(this.ctx, this.borderColor, this.race.Color);
             body.paint(this.ctx, this.borderColor, sexColor);
         }
+    }
+
+    Move(limitX, limitY){
+        this.limitX = limitX || 0;
+        this.limitY = limitY || 0;
+
+        let currXDir = Enums.Directions.X.Right;
+        let currYDir = Enums.Directions.Y.Down;
+
+        let offx = (this.elementWidth * 2) || 0;
+        let offy = (this.elementHeight * 2) || 0;
+        this.xcoord = Math.floor((Math.random() * (limitX - offx)) + 1);
+        this.ycoord = Math.floor((Math.random() * (limitY - offy)) + 1);
     }
 }
 

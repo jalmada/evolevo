@@ -43,29 +43,15 @@ class World {
         }
 
         this.evolitos.forEach(evolito => {
-            this.SpawnEvolito(evolito);
+            evolito.Spawn(this.ctx);
         });
-    }
-
-    SpawnEvolito(evolito){
-        if(evolito.Spawn){
-            evolito.Spawn(this.ctx, this.GetRandomPosition(evolito.OffsetX, evolito.OffsetY));
-        }
     }
 
     AddEvolito(evolito){
         this.evolitos.push(evolito);                
     }
 
-    GetRandomPosition(offsetx, offsety){
-        let offx = offsetx || 0;
-        let offy = offsety || 0
-
-        return {
-            x: Math.floor((Math.random() * (this.canvasWidth - (offx * 2))) + 1),
-            y: Math.floor((Math.random() * (this.canvasHeight - (offy * 2))) + 1)
-        };
-    }
+   
 
     SetInfo(){
         if(this.infoContainer){
@@ -82,6 +68,13 @@ class World {
     }
 
     Update(){
+
+        let canvasWidth = this.canvasWidth || 0;
+        let canvasHeight = this.canvasHeight || 0;
+
+        this.evolitos.forEach(evolito => {
+            evolito.Move(this.canvasWidth, this.canvasHeight);
+        });
         this.draw();
         this.SetInfo();
     }
