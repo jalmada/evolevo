@@ -5,7 +5,7 @@ import Sex from './sex.js';
 import uuidv4 from 'uuid/v4';
 
 class Evolito{
-    constructor(name, race, maxSize){
+    constructor(name, race, maxSize, speed){
         this.id = uuidv4();
         this.name = name || "Evolito D. Fault";
         this.age = 0;
@@ -23,6 +23,7 @@ class Evolito{
         this.lineWidth = 1;
         this.sex = new Sex(Enums.Sex.None);
         this.borderColor = "rgb(0,0,0)";
+        this.speed = speed || 5;
 
         this.ctx = null;
     }
@@ -77,13 +78,23 @@ class Evolito{
         this.limitX = limitX || 0;
         this.limitY = limitY || 0;
 
-        let currXDir = Enums.Directions.X.Right;
-        let currYDir = Enums.Directions.Y.Down;
+        let currXDir = this.GetRandomDirection();
+        let currYDir = this.GetRandomDirection();
+
+        let nextPositionX = this.xcoord + this.speed * currXDir;
+        let nextPositionY = this.ycoord + this.speed * currYDir;
+
+        nextPositionX = nextPositionX < 0 ? 0 : nextPositionX;
+        nextPositionY = nextPositionY < 0 ? 0 : nextPositionY;
 
         let offx = (this.elementWidth * 2) || 0;
         let offy = (this.elementHeight * 2) || 0;
-        this.xcoord = Math.floor((Math.random() * (limitX - offx)) + 1);
-        this.ycoord = Math.floor((Math.random() * (limitY - offy)) + 1);
+        this.xcoord = nextPositionX > (limitX - offx) ? this.xcoord : nextPositionX;
+        this.ycoord = nextPositionY > (limitY - offx) ? this.ycoord : nextPositionY;
+    }
+
+    GetRandomDirection(){
+        return Math.floor(Math.random() * (2 - (-1)) -1);
     }
 }
 

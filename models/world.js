@@ -6,8 +6,8 @@ class World {
         this.containerId = containerId;
         this.container = document.getElementById(this.containerId);
         this.evolitos = [];
-        this.canvasWidth = 300;
-        this.canvasHeight = 300;
+        this.canvasWidth = 1000;
+        this.canvasHeight = 800;
         this.infoContainerId = infoContainerId;
         this.infoContainer = document.getElementById(this.infoContainerId);
         this._initCanvas();
@@ -80,7 +80,7 @@ class World {
     }
 
     Run(){
-        setInterval(() => {this.Update()}, 500);
+        setInterval(() => {this.Update()}, 5);
     }
 }
 

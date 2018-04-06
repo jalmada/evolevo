@@ -28,10 +28,12 @@ class Enums {
         return {
             X : {
                 Right: 1,
+                Stay: 0,
                 Left: -1,
             },
             Y : {
                 Up: -1,
+                Stay: 0,
                 Down: 1
             }
         }
