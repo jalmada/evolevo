@@ -74,15 +74,18 @@ class Evolito{
         }
     }
 
-    Move(limitX, limitY){
+    Move(limitX, limitY, speed, speedMult){
+        this.speed = speed || this.speed;
+        speedMult = speedMult || 1;
+
         this.limitX = limitX || 0;
         this.limitY = limitY || 0;
 
         let currXDir = this.GetRandomDirection();
         let currYDir = this.GetRandomDirection();
 
-        let nextPositionX = this.xcoord + this.speed * currXDir;
-        let nextPositionY = this.ycoord + this.speed * currYDir;
+        let nextPositionX = this.xcoord + (this.speed * speedMult * currXDir);
+        let nextPositionY = this.ycoord + (this.speed * speedMult * currYDir);
 
         nextPositionX = nextPositionX < 0 ? 0 : nextPositionX;
         nextPositionY = nextPositionY < 0 ? 0 : nextPositionY;
