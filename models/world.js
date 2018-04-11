@@ -13,6 +13,7 @@ class World {
         this.pause = false;
         this.infoContainerId = infoContainerId;
         this.infoContainer = document.getElementById(this.infoContainerId);
+
         this._initCanvas();
     }
 
@@ -51,7 +52,12 @@ class World {
     }
 
     AddEvolito(evolito){
-        this.evolitos.push(evolito);                
+        if(evolito != null && this.evolitos.length <= 0){
+            this.Start();
+        }
+        if(evolito != null){
+            this.evolitos.push(evolito);                           
+        }
     }
 
     SetInfo(){
@@ -81,25 +87,37 @@ class World {
     }
 
     Run(){
-        if(this.pause || this,this.speedMult == 0) return;
-
-        this.Update();
-        window.requestAnimationFrame(this.Run.bind(this));     
-                   
-        //setInterval(() => {this.Update()}, 5);
+        if(this.speedMult == 0 || this.pause) {
+            this.Stop()
+            return;
+        } 
+        else if (this.speed > 0){
+            this.Update();
+            window.requestAnimationFrame(this.Run.bind(this));
+        }
+        
     }
 
-    TogglePause(){
-        if(this.pause){
-            this.pause = false;
-        } else {
-            this.pause = true;
-            this.Run();
-        }
+    Start(){
+        if(this.evolitos.length <= 0) return;
+        this.pause = false;
+        this.Run();
+    }
+
+    Stop(){
+        this.pause = true;
+    }
+
+    get Speed(){
+        return this.speedMult
     }
 
     set Speed(speedMult){
         this.speedMult = speedMult;
+    }
+
+    get IsRunning(){
+        return !this.pause;
     }
 }
 
