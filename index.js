@@ -16,11 +16,11 @@ var male1 = new Male("Cain", new Race(Enums.Race.Enana));
 var female2 = new Female("Abel", new Race(Enums.Race.Ichini));
 var male3 = new Male("Popito", new Race(Enums.Race.Midert));
 
-world.AddEvolito(male);
-world.AddEvolito(female);
-world.AddEvolito(male1);
-world.AddEvolito(female2);
-world.AddEvolito(male3);
+world.AddEvolito(male,0,0);
+world.AddEvolito(female,100,100);
+world.AddEvolito(male1,0,100);
+world.AddEvolito(female2,100,0);
+world.AddEvolito(male3,200,200);
 
 world.Start();
 

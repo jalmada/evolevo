@@ -24,8 +24,34 @@ class Evolito{
         this.sex = new Sex(Enums.Sex.None);
         this.borderColor = "rgb(0,0,0)";
         this.speed = speed || 5;
+        this.isColliding = false;
+        this.currXDir = 1;
+        this.currYDir = 1;
+        this.directionSteps = 0;
+        this.checkedColision = false;
 
         this.ctx = null;
+    }
+
+
+    get x(){
+        return this.xcoord;
+    }
+
+    get y(){
+        return this.ycoord;
+    }
+
+    get radius(){
+        return this.elementWidth;
+    }
+
+    get width(){
+        return this.elementWidth;
+    }
+
+    get height(){
+        return this.elementHeight;
     }
 
     get OffsetX(){
@@ -80,12 +106,16 @@ class Evolito{
 
         this.limitX = limitX || 0;
         this.limitY = limitY || 0;
+        this.directionSteps = this.directionSteps || 10;
 
-        let currXDir = this.GetRandomDirection();
-        let currYDir = this.GetRandomDirection();
+        if(this.directionSteps == 1){
+            this.currXDir = this.GetRandomDirection();
+            this.currYDir = this.GetRandomDirection();
+        }
+        this.directionSteps--;
 
-        let nextPositionX = this.xcoord + (this.speed * speedMult * currXDir);
-        let nextPositionY = this.ycoord + (this.speed * speedMult * currYDir);
+        let nextPositionX = this.xcoord + (this.speed * speedMult * this.currXDir);
+        let nextPositionY = this.ycoord + (this.speed * speedMult * this.currYDir);
 
         nextPositionX = nextPositionX < 0 ? 0 : nextPositionX;
         nextPositionY = nextPositionY < 0 ? 0 : nextPositionY;
@@ -94,6 +124,7 @@ class Evolito{
         let offy = (this.elementHeight * 2) || 0;
         this.xcoord = nextPositionX > (limitX - offx) ? this.xcoord : nextPositionX;
         this.ycoord = nextPositionY > (limitY - offx) ? this.ycoord : nextPositionY;
+        
     }
 
     GetRandomDirection(){

@@ -1,3 +1,4 @@
+import QuadTree from '../common/QuadTree.js'
 
 class World {
 
@@ -13,6 +14,8 @@ class World {
         this.pause = false;
         this.infoContainerId = infoContainerId;
         this.infoContainer = document.getElementById(this.infoContainerId);
+       
+        this.quadtree = new  window.QuadTree({x:0, y:0, width: this.canvasWidth, height: this.canvasHeight}, false, 4,4);
 
         this._initCanvas();
     }
@@ -51,12 +54,12 @@ class World {
         });
     }
 
-    AddEvolito(evolito){
-        if(evolito != null && this.evolitos.length <= 0){
-            this.Start();
-        }
+    AddEvolito(evolito, x, y){
+        evolito.xcoord = x || 0;
+        evolito.ycoord = y || 0;
         if(evolito != null){
-            this.evolitos.push(evolito);                           
+            this.evolitos.push(evolito);    
+            this.quadtree.insert(evolito);                   
         }
     }
 
@@ -74,6 +77,73 @@ class World {
         }
     }
 
+    updateTree()
+    {   
+	    this.quadtree.clear();
+	    this.quadtree.insert(this.evolitos);
+    }
+
+    checkCollisions(){
+
+        var items;
+        var c;
+        var len;
+        var item;
+        var dx, dy, radii;
+        var colliding = false;
+        
+
+        for(var i = 0; i < this.evolitos.length; i++)
+        {
+            c = this.evolitos[i];
+
+            items = this.quadtree.retrieve(c);
+            len = items.length;
+            for(var j = 0; j < len; j++)
+            {
+                item = items[j];
+                
+                if(c == item)
+                {
+                    continue;
+                }
+                
+                if(c.isColliding && item.isColliding)
+                {
+                    let tx = c.currXDir;
+                    let ty = c.currYDir;
+
+                    c.currXDir = item.currXDir;
+                    c.currYDir = item.currYDir;
+
+                    item.currXDir = tx;
+                    item.currYDir = ty;
+
+                    c.isColliding = false;
+                    item.isColliding = false;
+                    
+                    continue;
+                }
+                
+                dx = c.x - item.x;
+                dy = c.y - item.y;
+                radii = c.radius + item.radius;		
+                
+                colliding = (( dx * dx )  + ( dy * dy )) < (radii * radii);
+                
+                if(!c.isColliding)
+                {
+                    c.isColliding = colliding;
+                }
+                
+                if(!item.isColliding)
+                {
+                    item.isColliding = colliding;
+                }
+            }
+        }
+    }
+
     Update(){
 
         let canvasWidth = this.canvasWidth || 0;
@@ -82,8 +152,11 @@ class World {
         this.evolitos.forEach(evolito => {
             evolito.Move(this.canvasWidth, this.canvasHeight, this.speed, this.speedMult);
         });
+        
+        this.updateTree();
         this.draw();
         this.SetInfo();
+        this.checkCollisions();
     }
 
     Run(){
