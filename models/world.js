@@ -61,6 +61,12 @@ class World {
             this.evolitos.push(evolito);    
             this.quadtree.insert(evolito);                   
         }
+
+        if(this.evolitos.length == 1){
+            this.Start();
+        } else if (this.evolitos.length == 0){
+            this.Stop();
+        }
     }
 
     SetInfo(){
@@ -103,24 +109,27 @@ class World {
             {
                 item = items[j];
                 
-                if(c == item)
+                if(c == item || c.IsCollidingWith(item.id))
                 {
                     continue;
                 }
                 
-                if(c.isColliding && item.isColliding)
+                if(c.isColliding)
                 {
-                    let tx = c.currXDir;
-                    let ty = c.currYDir;
 
-                    c.currXDir = item.currXDir;
-                    c.currYDir = item.currYDir;
+                    let itemx = item.currXDir;
+                    let itemy =  item.currYDir;
 
-                    item.currXDir = tx;
-                    item.currYDir = ty;
+                    item.currXDir = c.currXDir;
+                    item.currYDir = c.currYDir;
+
+                    c.currXDir = itemx;
+                    c.currYDir = itemy;
 
                     c.isColliding = false;
                     item.isColliding = false;
+                    c.collidingWith = [];
+                    item.collidingWith = [];
                     
                     continue;
                 }
@@ -134,12 +143,18 @@ class World {
                 if(!c.isColliding)
                 {
                     c.isColliding = colliding;
+                    if(colliding){
+                        c.collidingWith.push(item.id);
+                    }
                 }
-                
                 if(!item.isColliding)
                 {
                     item.isColliding = colliding;
+                    if(colliding){
+                        item.collidingWith.push(c.id);
+                    }
                 }
+                
             }
         }
     }

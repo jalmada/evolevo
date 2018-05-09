@@ -4,8 +4,8 @@ import Sex from './sex.js';
 
 
 class Male extends Evolito{
-    constructor(name, race){
-        super(name, race);
+    constructor(name, race, maxSize, speed, dirx, diry){
+        super(name, race, maxSize, speed, dirx, diry);        
 
         this.sex = new Sex(Enums.Sex.Male);
     }

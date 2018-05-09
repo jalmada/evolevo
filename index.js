@@ -10,17 +10,14 @@ var pauseButton = document.getElementById('pauseButton');
 var addEvolitoButton = document.getElementById('addevolito');
 
 var world = new World('evolevo', 'data');
-var male = new Male("Adam", new Race(Enums.Race.Solains));
-var female = new Female("Eve", new Race(Enums.Race.Defaultonian));
-var male1 = new Male("Cain", new Race(Enums.Race.Enana));
-var female2 = new Female("Abel", new Race(Enums.Race.Ichini));
-var male3 = new Male("Popito", new Race(Enums.Race.Midert));
+var male = new Male("Adam", new Race(Enums.Race.Solains), null, null, 1, 1);
+var male2 = new Male("Adam", new Race(Enums.Race.Solains), null, null, -1, 1);
+var female = new Female("Eve", new Race(Enums.Race.Defaultonian), null, null, -1, -1);
 
-world.AddEvolito(male,0,0);
-world.AddEvolito(female,100,100);
-world.AddEvolito(male1,0,100);
-world.AddEvolito(female2,100,0);
-world.AddEvolito(male3,200,200);
+world.AddEvolito(male,10,0);
+world.AddEvolito(male2,215,0);
+world.AddEvolito(female,210,200);
+
 
 world.Start();
 

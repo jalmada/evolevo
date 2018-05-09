@@ -5,7 +5,7 @@ import Sex from './sex.js';
 import uuidv4 from 'uuid/v4';
 
 class Evolito{
-    constructor(name, race, maxSize, speed){
+    constructor(name, race, maxSize, speed, dirx, diry){
         this.id = uuidv4();
         this.name = name || "Evolito D. Fault";
         this.age = 0;
@@ -25,10 +25,11 @@ class Evolito{
         this.borderColor = "rgb(0,0,0)";
         this.speed = speed || 5;
         this.isColliding = false;
-        this.currXDir = 1;
-        this.currYDir = 1;
+        this.currXDir = dirx != undefined ? dirx : 1;
+        this.currYDir = diry != undefined ? diry : 1;
+        this.fixDirection = dirx != undefined && diry != undefined;
         this.directionSteps = 0;
-        this.checkedColision = false;
+        this.collidingWith = [];
 
         this.ctx = null;
     }
@@ -82,6 +83,19 @@ class Evolito{
         this.PaintBody(this.ctx, "rgb(0,0,0)");
     }
 
+    IsCollidingWith(id){
+        var iscolliding = false;
+
+        for(let x = 0; x < this.collidingWith.length; x++){
+            if(this.collidingWith[x] == id){
+                this.iscolliding = true;
+                break;
+            }
+        }
+
+        return iscolliding;
+    }
+
     PaintBody(ctx, c, s){
         this.ctx = this.ctx || ctx;        
         let raceColor = c || this.race.Color;
@@ -106,29 +120,39 @@ class Evolito{
 
         this.limitX = limitX || 0;
         this.limitY = limitY || 0;
-        this.directionSteps = this.directionSteps || 10;
 
-        if(this.directionSteps == 1){
-            this.currXDir = this.GetRandomDirection();
-            this.currYDir = this.GetRandomDirection();
+        if(this.directionSteps == 0){
+            this.directionSteps = this.GetRandomNoSteps();//this.directionSteps || 10;            
+            this.currXDir = !this.fixDirection ? this.GetRandomDirection() : this.currXDir;
+            this.currYDir = !this.fixDirection ? this.GetRandomDirection() : this.currYDir;
         }
         this.directionSteps--;
 
         let nextPositionX = this.xcoord + (this.speed * speedMult * this.currXDir);
         let nextPositionY = this.ycoord + (this.speed * speedMult * this.currYDir);
 
-        nextPositionX = nextPositionX < 0 ? 0 : nextPositionX;
-        nextPositionY = nextPositionY < 0 ? 0 : nextPositionY;
-
         let offx = (this.elementWidth * 2) || 0;
         let offy = (this.elementHeight * 2) || 0;
-        this.xcoord = nextPositionX > (limitX - offx) ? this.xcoord : nextPositionX;
-        this.ycoord = nextPositionY > (limitY - offx) ? this.ycoord : nextPositionY;
+
+        if(nextPositionX < 0 || nextPositionX > this.limitX - offx){
+            this.currXDir = this.currXDir * -1;
+        }
+
+        if(nextPositionY < 0 || nextPositionY > this.limitY - offx){
+            this.currYDir = this.currYDir * -1;
+        }
+
+        this.xcoord = nextPositionX > (this.limitX - offx) ? this.xcoord : nextPositionX;
+        this.ycoord = nextPositionY > (this.limitY - offy) ? this.ycoord : nextPositionY;
         
     }
 
     GetRandomDirection(){
         return Math.floor(Math.random() * (2 - (-1)) -1);
+    }
+
+    GetRandomNoSteps(){
+        return Math.floor(Math.random() * (50)) + 1;
     }
 }
 

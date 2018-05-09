@@ -4,8 +4,8 @@ import Faetus from './faetus.js';
 import Sex from './sex.js';
 
 class Female extends Evolito{
-    constructor(name, race){
-        super(name, race);
+    constructor(name, race, maxSize, speed, dirx, diry){
+        super(name, race, maxSize, speed, dirx, diry);
 
         this.sex = new Sex(Enums.Sex.Female);
         this.IsPreagnant = false;
