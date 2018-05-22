@@ -29,6 +29,7 @@ class MovementEngine {
         }
 
         var newPosition = position;
+        var newDirection = direction;
 
         newPosition.x += (speed.x * direction.x);
         newPosition.y += (speed.y * direction.y);
@@ -37,14 +38,16 @@ class MovementEngine {
         while(newPosition.x > limits.x || newPosition.x < 0){
             let limitx = newPosition.x < 0 ? 0 : limits.x;
             newPosition.x = limitx + ((newPosition.x - limitx) * -1)
+            newDirection.x = direction.x * -1;
         }
 
         while(newPosition.y > limits.y || newPosition.y < 0){
             let limity = newPosition.y < 0 ? 0 : limits.y;            
             newPosition.y = limity + ((newPosition.y - limity) * -1)
+            newDirection.y = direction.y * -1;
         }
         
-        return newPosition;
+        return {position: newPosition, direction: newDirection};
     }
 }
 

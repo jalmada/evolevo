@@ -1,4 +1,5 @@
 import QuadTree from '../common/QuadTree.js'
+import MovementEngine from '../common/MovementEngine.js'
 
 class World {
 
@@ -11,11 +12,13 @@ class World {
         this.canvasHeight = 600;
         this.speed = 1;
         this.speedMult = 1;
+        this.finalSpeed = this.speed * this.speedMult;
         this.pause = false;
         this.infoContainerId = infoContainerId;
         this.infoContainer = document.getElementById(this.infoContainerId);
        
         this.quadtree = new  window.QuadTree({x:0, y:0, width: this.canvasWidth, height: this.canvasHeight}, false, 4,4);
+        this.moveeng = new MovementEngine();
 
         this._initCanvas();
     }
@@ -164,14 +167,36 @@ class World {
         let canvasWidth = this.canvasWidth || 0;
         let canvasHeight = this.canvasHeight || 0;
 
-        this.evolitos.forEach(evolito => {
-            evolito.Move(this.canvasWidth, this.canvasHeight, this.speed, this.speedMult);
+        let newPositions = [];
+        this.evolitos.forEach(e => {
+            let position = {x: e.x, y: e.y};
+            let speed = {x: this.finalSpeed, y: this.finalSpeed};
+            let direction = {x: e.currXDir, y: e.currYDir};
+            let limits = {x: this.canvasWidth - e.OffsetX, y: this.canvasHeight - e.OffsetY};
+
+            let newp = this.moveeng.GetNextPosition(position, speed, direction, limits);
+
+            newPositions.push({e: e, p: newp});
+
+            e.xcoord = newp.position.x;
+            e.ycoord = newp.position.y;
+
+            e.currXDir = newp.direction.x;
+            e.currYDir = newp.direction.y;
         });
+
+        //Here detect colisions with the future collision engine
+
+        //this.evolitos.forEach(evolito => {
+        //    evolito.Move(this.canvasWidth, this.canvasHeight, this.speed, this.speedMult);
+        //});
         
+        
+
         this.updateTree();
         this.draw();
         this.SetInfo();
-        this.checkCollisions();
+        //this.checkCollisions();
     }
 
     Run(){

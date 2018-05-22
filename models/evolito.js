@@ -56,11 +56,11 @@ class Evolito{
     }
 
     get OffsetX(){
-        return  this.elementWidth;
+        return  this.elementWidth * 2;
     }
 
     get OffsetY(){
-        return this.elementHeight;
+        return this.elementHeight * 2;
     }
 
     get Width(){
