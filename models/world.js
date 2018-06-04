@@ -23,6 +23,10 @@ class World {
         this._initCanvas();
     }
 
+    get FinalSpeed(){
+        return this.speed * this.speedMult;
+    }
+
     _initCanvas(){
             
         this.canvas = document.createElement("canvas");
@@ -170,7 +174,7 @@ class World {
         let newPositions = [];
         this.evolitos.forEach(e => {
             let position = {x: e.x, y: e.y};
-            let speed = {x: this.finalSpeed, y: this.finalSpeed};
+            let speed = {x: this.FinalSpeed, y: this.FinalSpeed};
             let direction = {x: e.currXDir, y: e.currYDir};
             let limits = {x: this.canvasWidth - e.OffsetX, y: this.canvasHeight - e.OffsetY};
 
