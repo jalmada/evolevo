@@ -7,7 +7,7 @@ class MovementEngine {
     /       and in y could be up (-1), static (0), down (1)
     */
     GetNextPosition(position, speed, direction, limits){
-        var postion = position || {x: 0, y:0};
+        var postion = position || {x: 0, y:0};  
         var speed = speed || {x:1, y:1};
         var direction = direction || {x: 0, y: 0};
         var limits = limits || {x:0, y:0};
